@@ -66,3 +66,6 @@ tbody tr:nth-child(even) { background: #f2f6fa; }
   main { width: 94%; }
   .flow { flex-direction: column; }
 }
+
+/* Keeps the diagram image inside the viewport on small screens. */
+.illustration{display:block;max-width:100%;height:auto;margin:0 auto 12px}
