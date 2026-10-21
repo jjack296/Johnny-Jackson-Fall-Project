@@ -69,3 +69,28 @@ tbody tr:nth-child(even) { background: #f2f6fa; }
 
 /* Keeps the diagram image inside the viewport on small screens. */
 .illustration{display:block;max-width:100%;height:auto;margin:0 auto 12px}
+
+/* Milestone 2: quiz uses the same site colors, spacing, and navigation. */
+.quiz-intro{max-width:780px;margin:0 auto 1.5rem}
+.quiz-form{max-width:850px;margin:0 auto}
+.question{background:#fff;border:1px solid #cbd5e1;border-radius:12px;padding:1.35rem;margin:1rem 0}
+.question legend{font-weight:700;color:#123a63;padding:0 .3rem}
+.question label.option{display:block;padding:.55rem .7rem;margin:.35rem 0;border-radius:7px;cursor:pointer}
+.question label.option:hover{background:#eaf3fc}
+.question input[type=text]{display:block;width:100%;max-width:480px;padding:.8rem;border:1px solid #718096;border-radius:7px;font:inherit;margin-top:.5rem}
+.question input[type=radio],.question input[type=checkbox]{margin-right:.55rem;accent-color:#1769aa}
+.quiz-actions{display:flex;flex-wrap:wrap;gap:1rem;margin:1.3rem 0}
+.quiz-actions button,.quiz-link{display:inline-block;border:0;border-radius:8px;padding:.8rem 1.2rem;background:#1769aa;color:white;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.quiz-actions button:hover,.quiz-link:hover{background:#104d80;color:#fff}
+.quiz-actions .secondary{background:#46566a}
+.quiz-actions .secondary:hover{background:#27384a}
+.quiz-results{max-width:850px;margin:1.5rem auto;background:#fff;border:2px solid #b9c9d9;border-radius:12px;padding:1.5rem}
+.quiz-results[hidden]{display:none}
+.quiz-results .pass{color:#116538}
+.quiz-results .fail{color:#a12a2a}
+.feedback{border-left:4px solid #718096;margin:.75rem 0;padding:.7rem 1rem;background:#f5f7fa}
+.feedback.correct{border-color:#238b51;background:#edf8f0}
+.feedback.incorrect{border-color:#c64a42;background:#fff0ee}
+.feedback p{margin:.2rem 0}
+.quiz-help{font-size:.95rem;color:#475569}
+@media(max-width:650px){.question{padding:1rem}.quiz-actions button{width:100%}}
