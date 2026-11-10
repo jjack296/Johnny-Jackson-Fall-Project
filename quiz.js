@@ -2,6 +2,31 @@
 "use strict";
 const form = document.getElementById("http-quiz");
 const results = document.getElementById("quiz-results");
+const timerDisplay = document.getElementById("time-remaining");
+const QUIZ_SECONDS = 10 * 60;
+let deadline = Date.now() + QUIZ_SECONDS * 1000;
+let timerId;
+let submitted = false;
+function updateTimer() {
+  if (submitted) return;
+  const remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+  const minutes = String(Math.floor(remaining / 60)).padStart(2, "0");
+  const seconds = String(remaining % 60).padStart(2, "0");
+  timerDisplay.textContent = minutes + ":" + seconds;
+  timerDisplay.classList.toggle("timer-warning", remaining <= 60);
+  if (remaining === 0) {
+    clearInterval(timerId);
+    gradeQuiz(true);
+  }
+}
+function startTimer() {
+  clearInterval(timerId);
+  deadline = Date.now() + QUIZ_SECONDS * 1000;
+  submitted = false;
+  updateTimer();
+  timerId = setInterval(updateTimer, 250);
+}
+
 const explanations = [
   ["Hypertext Transfer Protocol", "HTTP is short for Hypertext Transfer Protocol, the set of rules browsers and servers use to exchange resources."],
   ["GET", "GET asks a server to send back a resource, such as an HTML page."],
@@ -25,8 +50,12 @@ function isCorrect(index) {
   }
   return selected("q6") === "QUIC";
 }
-form.addEventListener("submit", event => {
-  event.preventDefault();
+function gradeQuiz(timedOut = false) {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerId);
+  updateTimer();
+  timerDisplay.textContent = timedOut ? "00:00" : timerDisplay.textContent;
   let score = 0;
   const details = document.createElement("div");
   for (let i = 0; i < explanations.length; i++) {
@@ -52,12 +81,24 @@ form.addEventListener("submit", event => {
   heading.textContent = passed ? "You passed!" : "Keep practicing!";
   const summary = document.createElement("p");
   summary.textContent = "Your score: " + score + "/6 (" + Math.round(score/6*100) + "%). Result: " + (passed ? "Pass" : "Fail") + ".";
+  if (timedOut) {
+    const notice = document.createElement("p");
+    notice.textContent = "Time is up! Your answers were submitted automatically.";
+    results.appendChild(notice);
+  }
   results.append(heading, summary, details);
   results.hidden = false;
   results.scrollIntoView({behavior:"smooth",block:"start"});
+}
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  if (Date.now() >= deadline) gradeQuiz(true);
+  else gradeQuiz(false);
 });
 /* Reset clears both native form fields and the displayed score/feedback. */
 form.addEventListener("reset", () => {
   results.replaceChildren();
   results.hidden = true;
+  startTimer();
 });
+startTimer();
