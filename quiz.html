@@ -7,6 +7,8 @@
 <main>
 <section class="quiz-intro"><h2>How much do you remember about HTTP?</h2><p>You've learned how browsers talk to servers and how HTTP has changed over the years. Now try these six questions to see what stuck. Don't worry if you miss a few—you'll see the answers and explanations after you submit.</p><p class="quiz-help">Each question is worth one point. A score of 4 out of 6 or higher is a pass. For the select-all question, you need to choose every correct answer and no incorrect ones.</p></section>
 <!-- Native HTML form controls make the quiz accessible and easy to use. -->
+<!-- The timer starts when the quiz page opens and auto-submits at zero. -->
+<section class="quiz-timer" role="status" aria-live="off"><strong>Time remaining:</strong> <output id="time-remaining" aria-label="Time remaining">10:00</output><p class="quiz-help">You have 10 minutes to complete the quiz. When time runs out, your answers will be graded automatically.</p></section>
 <form id="http-quiz" class="quiz-form" novalidate>
 <fieldset class="question"><legend>1. What does HTTP stand for? (Fill in the blank)</legend><label for="q1">Type the full name of HTTP:</label><input id="q1" name="q1" type="text" autocomplete="off" placeholder="Your answer"></fieldset>
 <fieldset class="question"><legend>2. Which HTTP method is normally used to retrieve a web page?</legend><label class="option"><input type="radio" name="q2" value="POST">POST</label><label class="option"><input type="radio" name="q2" value="GET">GET</label><label class="option"><input type="radio" name="q2" value="DELETE">DELETE</label></fieldset>
