@@ -94,3 +94,9 @@ tbody tr:nth-child(even) { background: #f2f6fa; }
 .feedback p{margin:.2rem 0}
 .quiz-help{font-size:.95rem;color:#475569}
 @media(max-width:650px){.question{padding:1rem}.quiz-actions button{width:100%}}
+
+/* Ten-minute quiz countdown, including a warning during the final minute. */
+.quiz-timer{max-width:850px;margin:0 auto 1.25rem;padding:1rem 1.25rem;background:#e8f2fb;border:2px solid #1769aa;border-radius:10px;text-align:center}
+.quiz-timer output{font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;color:#123a63;margin-left:.5rem}
+.quiz-timer output.timer-warning{color:#a12a2a}
+.quiz-timer p{margin:.4rem 0 0}
