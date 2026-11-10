@@ -4,7 +4,8 @@ const form = document.getElementById("http-quiz");
 const results = document.getElementById("quiz-results");
 const timerDisplay = document.getElementById("time-remaining");
 const QUIZ_SECONDS = 10 * 60;
-let deadline = Date.now() + QUIZ_SECONDS * 1000;
+let startedAt = Date.now();
+let deadline = startedAt + QUIZ_SECONDS * 1000;
 let timerId;
 let submitted = false;
 function updateTimer() {
@@ -21,7 +22,10 @@ function updateTimer() {
 }
 function startTimer() {
   clearInterval(timerId);
-  deadline = Date.now() + QUIZ_SECONDS * 1000;
+  startedAt = Date.now();
+  deadline = startedAt + QUIZ_SECONDS * 1000;
+  form.querySelectorAll("input").forEach(input => { input.disabled = false; });
+  form.querySelector('button[type="submit"]').disabled = false;
   submitted = false;
   updateTimer();
   timerId = setInterval(updateTimer, 250);
@@ -52,8 +56,13 @@ function isCorrect(index) {
 }
 function gradeQuiz(timedOut = false) {
   if (submitted) return;
+  const finishedAt = Date.now();
+  const secondsSpent = timedOut ? QUIZ_SECONDS : Math.min(QUIZ_SECONDS, Math.max(0, Math.floor((finishedAt - startedAt) / 1000)));
+  const timeSpent = Math.floor(secondsSpent / 60) + " minute" + (Math.floor(secondsSpent / 60) === 1 ? "" : "s") + " and " + (secondsSpent % 60) + " second" + (secondsSpent % 60 === 1 ? "" : "s");
   submitted = true;
   clearInterval(timerId);
+  form.querySelectorAll("input").forEach(input => { input.disabled = true; });
+  form.querySelector('button[type="submit"]').disabled = true;
   updateTimer();
   timerDisplay.textContent = timedOut ? "00:00" : timerDisplay.textContent;
   let score = 0;
@@ -86,7 +95,9 @@ function gradeQuiz(timedOut = false) {
     notice.textContent = "Time is up! Your answers were submitted automatically.";
     results.appendChild(notice);
   }
-  results.append(heading, summary, details);
+  const duration = document.createElement("p");
+  duration.textContent = "Time spent on quiz: " + timeSpent + " (10-minute limit).";
+  results.append(heading, summary, duration, details);
   results.hidden = false;
   results.scrollIntoView({behavior:"smooth",block:"start"});
 }
